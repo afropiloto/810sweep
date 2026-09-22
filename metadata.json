@@ -1,0 +1,8 @@
+{
+  "name": "Remix 810 mobile Ui",
+  "description": "A TikTok-style mobile-first app that combines social media and prediction markets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
