@@ -17,6 +17,7 @@ import { mockMarkets, currentUser, mockPositions, mockSettledHistory } from './d
 import { Market, Position, User, SettledHistoryItem } from './types';
 import { cn } from './lib/utils';
 import { CURRENCY, API_BASE_URL } from './config';
+import { mapApiMarketsPayload } from './lib/mapApiMarket';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +77,7 @@ export default function App() {
   const [pushEnabled, setPushEnabled] = useState(false);
   const [pwaPushAlert, setPwaPushAlert] = useState<{ title: string; message: string } | null>(null);
 
-  // Fetch Markets
+  // Fetch Markets — prefer live Cloud Run / proxy; map API schema → UI Market
   useEffect(() => {
     const urls = [
       '/api/markets',
@@ -92,21 +93,15 @@ export default function App() {
         const res = await fetch(urls[index]);
         if (!res.ok) throw new Error(`Status ${res.status}`);
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const hasPortfolio = data.some((m: any) => 
-            m.creator?.username?.toLowerCase().includes('flovely') || 
-            m.creator?.username?.toLowerCase().includes('lol')
-          );
-          if (hasPortfolio) {
-            setMarkets(data);
-          } else {
-            // Ensure client investor showcase is always included at the top
-            setMarkets([...mockMarkets, ...data.filter((d: any) => !mockMarkets.some(m => m.id === d.id))]);
-          }
-        } else {
-          throw new Error('Empty or invalid data');
-        }
-      } catch (err) {
+        // Proxy may already return UI Market[]; Cloud Run returns { markets: [...] }
+        const alreadyMapped =
+          Array.isArray(data) &&
+          data.length > 0 &&
+          data[0]?.creator?.username != null;
+        const mapped = alreadyMapped ? (data as Market[]) : mapApiMarketsPayload(data);
+        if (mapped.length === 0) throw new Error('Empty or invalid data');
+        setMarkets(mapped);
+      } catch {
         tryFetch(index + 1);
       }
     };
