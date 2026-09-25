@@ -31,4 +31,5 @@ export const LIVE_SURFACES = {
   marketingTech: 'https://810.one/tech',
   marketingRegs: 'https://810.one/regs',
   marketingGta6: 'https://810.one/gta6',
+  dataRoom: 'https://810.one/data-room',
 } as const;

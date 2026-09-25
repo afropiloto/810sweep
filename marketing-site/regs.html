@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>810 Protocol — The Three-Tiered Compliance Model &amp; Corporate Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --card-bg: #111111;
+    --card-border: #222222;
+    --lime: #C8FF00;
+    --text-primary: #FFFFFF;
+    --text-muted: #8E8E93;
+    --text-dim: #555555;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.65;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--lime);
+    background: rgba(200, 255, 0, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(200, 255, 0, 0.2);
+  }
+
+  .btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary {
+    background: var(--lime);
+    color: #000;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #b5e600;
+  }
+
+  .btn-secondary {
+    background: #1c1c1e;
+    color: #fff;
+    border: 1px solid #333;
+  }
+
+  header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .doc-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  section {
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 .num {
+    color: var(--lime);
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--lime);
+    margin: 16px 0 8px 0;
+  }
+
+  p {
+    color: #CCCCCC;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card-highlight {
+    border-left: 4px solid var(--lime);
+    background: rgba(200, 255, 0, 0.02);
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 860px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    h1 { font-size: 26px; }
+  }
+
+  .entity-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  th {
+    background: #161616;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid var(--card-border);
+  }
+
+  td {
+    padding: 14px 16px;
+    border: 1px solid var(--card-border);
+    color: #CCC;
+  }
+
+  ul {
+    margin-left: 20px;
+    margin-bottom: 16px;
+    color: #CCC;
+  }
+
+  li {
+    margin-bottom: 8px;
+    font-size: 14.5px;
+  }
+
+  footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--card-border);
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  @media print {
+    body { background: #FFF; color: #000; padding: 20px; }
+    .btn, .top-bar { display: none; }
+    .card { background: #F8F9FA; border-color: #DDD; color: #000; }
+    th { background: #EEE; color: #000; }
+    td, p, li { color: #222; }
+    h1, h2, h3 { color: #000; }
+    .badge, .entity-tag, h2 .num { color: #000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="top-bar">
+    <div class="badge">● 810 PROTOCOL // COMPLIANCE &amp; CORPORATE BLUEPRINT</div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="https://810.one/data-room" class="btn btn-secondary">🗂 Data Room</a>
+      <a href="https://810.one/tech" class="btn btn-secondary">⚡ Tech</a>
+      <a href="https://810.one/regs" class="btn btn-secondary">⚖️ Regs</a>
+      <a href="https://810.one/gta6" class="btn btn-secondary">🎮 GTA 6</a>
+      <button onclick="window.print()" class="btn btn-primary">📄 Export PDF</button>
+    </div>
+  </div>
+
+  <header>
+    <h1>THE THREE-TIERED HYBRID COMPLIANCE ARCHITECTURE</h1>
+    <div class="subtitle">Unified global social prediction infrastructure: dynamically routing between <strong>Social Clout (Gems) ➔ Sweepstakes (USD &amp; Merch) ➔ Crypto (USDC on Base L2)</strong> based on GPS coordinates and telemetry.</div>
+    <div class="doc-meta">
+      <span><strong>TIER 1 (US &amp; UK):</strong> Sweepstakes Model (Title 18 AMOE)</span>
+      <span><strong>TIER 2 (ROW):</strong> Crypto Model (USDC on Base L2)</span>
+      <span><strong>TIER 3 (GLOBAL):</strong> 100% Free-to-Play Social Model</span>
+      <span><strong>STATUS:</strong> Zero Wagering Licenses Required</span>
+    </div>
+  </header>
+
+  <!-- 01: THE THREE-TIERED HYBRID MODEL (FRONT AND CENTER) -->
+  <section>
+    <h2><span class="num">01 //</span> The Three-Tiered Hybrid Compliance Model (Global Dynamic Geo-Routing)</h2>
+    <p>
+      By dynamically adapting stake mechanics and redemption rails based on real-time GPS coordinates, IP telemetry, and KYC verification, 810 delivers a seamless, unified global user experience while maintaining surgical compliance across diverse international and domestic legal frameworks:
+    </p>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Tier &amp; Rail</th>
+            <th>Target Jurisdictions</th>
+            <th>Mechanics &amp; Currency</th>
+            <th>Regulatory Strategy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong style="color:var(--lime);">🪪 Tier 1: Sweepstakes Model</strong><br>
+              <span style="font-size:12px; color:var(--text-muted);">USD &amp; Physical Merch Drops</span>
+            </td>
+            <td>
+              <strong>United States &amp; United Kingdom</strong><br>
+              <span style="font-size:12px; color:var(--text-muted);">(Excluding restricted states)</span>
+            </td>
+            <td>
+              <strong>"No Purchase Necessary" Promotion:</strong> Free daily coins + optional Culture Gold purchases award complimentary Sweeps Cash. Users predict cultural outcomes and redeem 1:1 for USD or brand merchandise.
+            </td>
+            <td>
+              <strong>Promotional Giveaway Winnings:</strong> Operates via <em>810 US Promotions LLC</em> under federal Title 18 AMOE safe harbors. Native Apple Pay &amp; card checkout.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong style="color:var(--lime);">🪙 Tier 2: Crypto DeFi Model</strong><br>
+              <span style="font-size:12px; color:var(--text-muted);">USDC on Base L2</span>
+            </td>
+            <td>
+              <strong>Select International Regions</strong><br>
+              <span style="font-size:12px; color:var(--text-muted);">(Where crypto prediction markets are permitted)</span>
+            </td>
+            <td>
+              <strong>Decentralized Non-Custodial:</strong> Users forecast and settle directly in <strong>USDC (dollar-pegged stablecoin)</strong> on Base L2 smart contracts with instant on-chain payouts.
+            </td>
+            <td>
+              <strong>Digital Asset Protocol:</strong> Governed via <em>810 Protocol Labs Ltd. (Gibraltar)</em> under British Common Law DLT principles. Completely eliminates cross-border wire delays and customs fees.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong style="color:var(--lime);">🎮 Tier 3: Social Clout Model</strong><br>
+              <span style="font-size:12px; color:var(--text-muted);">Gems &amp; Clout Only</span>
+            </td>
+            <td>
+              <strong>Rest of World (ROW) &amp; Restricted States</strong><br>
+              <span style="font-size:12px; color:var(--text-muted);">(China, WA, ID, and restricted EU territories)</span>
+            </td>
+            <td>
+              <strong>100% Free-to-Play:</strong> All cashouts and real-world redemptions are hard-locked. Users play purely for cultural clout, creator drops, prestige badges, and leaderboard dominance.
+            </td>
+            <td>
+              <strong>Pure Entertainment:</strong> Social game with zero monetary value. Unlocks universal App Store approval and global virality without regulatory friction.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4 STRATEGIC ADVANTAGES -->
+    <div class="grid-2">
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Distribution Advantage</div>
+        <h3 style="color:#FFF; font-size:16px; margin-top:0;">Bypassing App Store Financial Gatekeepers</h3>
+        <p style="font-size:14px; margin-bottom:0;">
+          Apple and Google maintain aggressive prohibitions on real-money gambling apps. By dynamically routing users into the compliant Social or Promotional Sweepstakes tiers, 810 remains listed globally on the iOS App Store and Google Play Store with zero risk of store delisting.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Operational Efficiency</div>
+        <h3 style="color:#FFF; font-size:16px; margin-top:0;">Zero Cross-Border Shipping &amp; Banking Logistics</h3>
+        <p style="font-size:14px; margin-bottom:0;">
+          Fulfilling international physical rewards introduces crippling tariff, courier, and customs overhead. Routing international users into USDC on Base L2 offloads settlement entirely to instant, automated blockchain rails with near-zero transaction costs.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Compliance Defense</div>
+        <h3 style="color:#FFF; font-size:16px; margin-top:0;">Bulletproof Geolocation &amp; KYC Gating</h3>
+        <p style="font-size:14px; margin-bottom:0;">
+          The backend dynamically adapts interface elements based on GPS and IP telemetry. VPN spoofing is nullified: before any user can redeem prizes, mandatory government-issued ID (KYC) verification must match their geolocated tier, permanently locking bad actors out of cashouts.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom:0; border-color: rgba(200, 255, 0, 0.4);">
+        <div class="entity-tag">Growth Engine</div>
+        <h3 style="color:#FFF; font-size:16px; margin-top:0;">Global Media Hype, Social Amplification &amp; Fandom</h3>
+        <p style="font-size:14px; margin-bottom:0;">
+          Because Tier 3 allows anyone on Earth to participate socially, creators, streamers, and the Culture Club podcast can amplify campaigns universally across TikTok, YouTube, and X without geo-blocking content or fracturing global fandom.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02: DUAL-TRACK CORPORATE ENTITY MAPPING -->
+  <section>
+    <h2><span class="num">02 //</span> Corporate Architecture: Ring-Fenced Entity Mapping</h2>
+    <p>
+      To support the Three-Tiered model, 810 operates two <strong>completely separate, independent legal tracks with zero parent-subsidiary ownership</strong>. This eliminates cross-jurisdictional contamination and ensures US regulators have zero personal jurisdiction over the offshore digital asset protocol:
+    </p>
+
+    <div class="grid-2">
+      <!-- TRACK 1: US COMMERCIAL C-CORP -->
+      <div class="card" style="margin-bottom:0; border: 1px solid var(--lime);">
+        <div class="entity-tag" style="color:var(--lime);">Track A · US Commercial &amp; Investment Vehicle</div>
+        <div class="entity-title" style="font-size:20px; font-weight:700; color:#FFF; margin-bottom:8px;">810 Holdings Inc. (Delaware C-Corp)</div>
+        <p style="font-size:14px; margin-bottom:14px; color:#CCC;">
+          The US parent operating company. Takes all venture capital and angel checks via standard Delaware Post-Money SAFEs. Holds corporate treasury, US software IP, and delivers Section 1202 QSBS tax-free capital gains to US investors.
+        </p>
+
+        <div style="background:#161616; padding:12px; border-radius:8px; border:1px solid #282828; margin-bottom:10px;">
+          <div style="font-family:'Space Mono', monospace; font-size:11px; color:var(--lime);">WHOLLY-OWNED SUBSIDIARY 1 (POWERS TIER 1 SWEEPS)</div>
+          <div style="font-size:15px; font-weight:600; color:#FFF; margin:2px 0;">810 US Promotions LLC (Delaware)</div>
+          <div style="font-size:13px; color:#AAA;">Operates Title 18 AMOE social sweepstakes across 45+ states. Manages Apple Pay, Google Pay, and Stripe credit/debit card onramps.</div>
+        </div>
+
+        <div style="background:#161616; padding:12px; border-radius:8px; border:1px solid #282828;">
+          <div style="font-family:'Space Mono', monospace; font-size:11px; color:var(--lime);">WHOLLY-OWNED SUBSIDIARY 2 (POWERS MEDIA &amp; CULTURE CLUB)</div>
+          <div style="font-size:15px; font-weight:600; color:#FFF; margin:2px 0;">810 Media &amp; Studios LLC (Delaware)</div>
+          <div style="font-size:13px; color:#AAA;">Dedicated production entity for Culture Club podcast, content IP, and direct brand sponsorship contracts (Nike, Red Bull).</div>
+        </div>
+      </div>
+
+      <!-- TRACK 2: COMPLETELY INDEPENDENT GIBRALTAR PROTOCOL -->
+      <div class="card" style="margin-bottom:0; border: 1px solid rgba(200, 255, 0, 0.4);">
+        <div class="entity-tag" style="color:var(--lime);">Track B · Completely Independent Protocol Entity (POWERS TIER 2 CRYPTO)</div>
+        <div class="entity-title" style="font-size:20px; font-weight:700; color:#FFF; margin-bottom:8px;">810 Protocol Labs Ltd. (Gibraltar)</div>
+        <p style="font-size:14px; margin-bottom:14px; color:#CCC;">
+          A completely separate sister legal entity with <strong>zero parent-subsidiary relationship to Delaware</strong>. The Delaware C-Corp holds zero equity control over Gibraltar, providing ironclad insulation against US regulatory overreach.
+        </p>
+
+        <div style="background:#161616; padding:14px; border-radius:8px; border:1px solid #282828; margin-bottom:10px;">
+          <div style="font-family:'Space Mono', monospace; font-size:11px; color:var(--lime); margin-bottom:4px;">REST OF WORLD (ROW) DIGITAL ASSET PROTOCOL</div>
+          <ul style="margin-left:16px; margin-bottom:0; font-size:13.5px; color:#AAA;">
+            <li>Governs non-custodial smart contracts on Base L2 and global USDC market pools outside the US.</li>
+            <li>Operates strictly under Gibraltar's progressive British Common Law Distributed Ledger Technology (DLT) framework.</li>
+            <li>Completely eliminates international bank wire costs, currency conversions, and customs barriers.</li>
+          </ul>
+        </div>
+
+        <div style="background:#161616; padding:12px; border-radius:8px; border:1px solid #282828;">
+          <div style="font-family:'Space Mono', monospace; font-size:11px; color:var(--lime); margin-bottom:4px;">RING-FENCED COOPERATION</div>
+          <div style="font-size:13px; color:#AAA;">Connected to the US commercial arm solely via an arm's-length open-source protocol licensing framework. US agencies have zero personal jurisdiction over Gibraltar.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03: PURE SOFTWARE & ATTENTION MARKETS -->
+  <section>
+    <h2><span class="num">03 //</span> Pure Software, Media &amp; Attention Markets (Non-Wagering Infrastructure)</h2>
+    <div class="card card-highlight">
+      <p style="font-size: 16px; color: #FFF; margin-bottom: 12px;">
+        <strong>Why 810 Operates Completely Outside Traditional Wagering Regimes</strong>
+      </p>
+      <ul>
+        <li><strong>Institutional VC Alignment (Zero Vice Clauses):</strong> Tier-1 venture funds operate under strict LP covenants prohibiting investment in sportsbooks or wagering operators. 810 operates purely as a software, media, and promotional attention protocol.</li>
+        <li><strong>Pristine Brand Safety for Commercial Partners:</strong> Mainstream global consumer brands (beverage, apparel, automotive) will not sponsor casino or bookmaking platforms. They sponsor Culture Club and creator markets through 810 Media &amp; Studios LLC as clean, commercial media activations.</li>
+        <li><strong>Zero Balance Sheet Custody:</strong> In the US, users purchase promotional social coins (Culture Gold). Internationally, users interact directly with decentralized, non-custodial smart contracts on Base L2. We never take balance sheet custody of player deposits.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 04: ECOSYSTEM VALUE PROPOSITIONS & INFRASTRUCTURE -->
+  <section>
+    <h2><span class="num">04 //</span> Social Prediction Infrastructure: Ecosystem Value Propositions</h2>
+    <p>By operating across Social, Sweepstakes, and Digital Asset tiers, 810 evolves from a simple prediction application into a universal <strong>cultural attention infrastructure</strong>, solving the fundamental friction points faced by athletes, creators, brands, and institutional capital:</p>
+
+    <div class="grid-3">
+      <!-- 1. NIL ATHLETES -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">NIL Collegiate &amp; Pro Athletes</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Low-Effort Monetization</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          Student-athletes face immense pressure to create daily social content while competing full-time. On 810, athletes launch passive prediction markets (e.g., <em>"Will I score 20+ points this weekend?"</em> or <em>"What sneakers am I wearing to the game?"</em>). Free-to-play social and sweepstakes mechanics completely protect NCAA eligibility.
+        </p>
+        <span class="badge" style="font-size:10px;">Zero NCAA Vice Risk</span>
+      </div>
+
+      <!-- 2. BRANDS & MERCH DROPS -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Brands &amp; Consumer Goods</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Merch-Drop Prize Pools</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          Consumers skip conventional banner ads and generic video shoutouts. Brands sponsor entire prediction pools and supply physical merchandise as the prize pool. Users play the free social game, earn tokens, and redeem branded products, generating organic customer intent without hard sales pitches.
+        </p>
+        <span class="badge" style="font-size:10px;">Gamified Commerce</span>
+      </div>
+
+      <!-- 3. CREATORS & SUPERFANS -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Creators &amp; Streamers</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Continuous Fan Engagement</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          Audience engagement drops the moment a live stream ends. 810 gives fans an incentive to care 24/7: fans analyze past streams, podcasts, and social posts to predict upcoming creator moves (e.g., <em>"Will they announce a world tour next week?"</em>), building loyal superfan communities.
+        </p>
+        <span class="badge" style="font-size:10px;">24/7 Superfan Loops</span>
+      </div>
+
+      <!-- 4. ARTISTS & LABELS -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Artists &amp; Musicians</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Cultural Milestones</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          Record labels and artists monetize fan conviction on album debuts, Billboard placements, and surprise festival setlists. Fans participate out of genuine cultural fandom, driving streaming velocity across Spotify and Apple Music while participating in market upside.
+        </p>
+        <span class="badge" style="font-size:10px;">Fandom-Driven Growth</span>
+      </div>
+
+      <!-- 5. LIVE EVENTS & FESTIVALS -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Live Events &amp; Festivals</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Real-Time Audience Retention</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          Concerts, esports tournaments, and creator boxing events integrate live 810 prediction markets into physical venue screens and digital broadcasts, transforming passive viewers into locked-in, active participants for every minute of the show.
+        </p>
+        <span class="badge" style="font-size:10px;">Interactive Broadcasts</span>
+      </div>
+
+      <!-- 6. MEDIA CAPITAL & ROW -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag">Media Capital &amp; Investors</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Borderless Liquidity (USDC)</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          Venture capital and media networks prize global scale. Traditional wagering platforms are bound by domestic borders and high merchant banking costs. Operating Tier 2 in USDC on Base L2 taps into frictionless global liquidity with zero cross-border wiring or chargeback risk.
+        </p>
+        <span class="badge" style="font-size:10px;">Global Settlement Rails</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05: PHILANTHROPIC ENGINE & CSR COMPLIANCE LOOP -->
+  <section>
+    <h2><span class="num">05 //</span> Programmable Philanthropy: The CSR Tax Shield &amp; F-1 Visa Safe Harbor</h2>
+    <p>
+      Incorporating automated <strong>charitable donation routing</strong> closes the final compliance loop. By programmatically redirecting market revenues, transaction splits, or sponsored pools to verified 501(c)(3) non-profit organizations, 810 removes the regulatory risk of personal enrichment for restricted individuals and creates an institutional tax shield for corporate sponsors:
+    </p>
+
+    <div class="grid-2">
+      <!-- 1. F-1 VISA ATHLETE SOLUTION -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag" style="color:var(--lime);">Immigration &amp; NIL Safe Harbor</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">The F-1 International Student-Athlete Solution</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          International collegiate athletes in the U.S. study under strict <strong>F-1 student visas</strong>, which legally prohibit off-campus employment or active/passive entrepreneurial income under USCIS rules. Earning direct NIL income or prediction payouts risks immediate visa revocation and deportation.
+        </p>
+        <p style="font-size:14px; margin-bottom:0; color:#AAA;">
+          <strong>The Solution:</strong> 810 enables international athletes to route 100% of market proceeds directly to a 501(c)(3) foundation (e.g., local food banks or athletic foundations). Because they take zero personal income and act purely as charitable ambassadors, they remain in 100% USCIS compliance while building brand parity with U.S. teammates.
+        </p>
+      </div>
+
+      <!-- 2. BRAND CSR TAX SHIELD -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag" style="color:var(--lime);">Corporate Tax Optimization</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Brand CSR Tax Shield</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          When corporate brands fund prediction pools with marketing capital, structuring the campaign around a charitable cause generates substantial corporate tax deductions.
+        </p>
+        <p style="font-size:14px; margin-bottom:0; color:#AAA;">
+          <strong>Mechanics:</strong> A brand sponsors a prediction category (e.g., <em>"Predict the Super Bowl Halftime opening song"</em>). For every user who participates, the brand donates fractional USD or USDC to a designated charity in the creator's name. The brand secures a direct corporate tax write-off, the charity receives capital, the platform captures high-velocity engagement, and users play for free.
+        </p>
+      </div>
+
+      <!-- 3. ON-CHAIN CHARITY ROUTING -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag" style="color:var(--lime);">Cryptographic Transparency</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Automated On-Chain Routing (Base L2 Web3 Tier)</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          For the international Web3 tier, philanthropic giving is completely automated via smart contracts integrated with verified crypto-philanthropy gateways (e.g., <em>The Giving Block</em> and <em>Endaoment</em>).
+        </p>
+        <p style="font-size:14px; margin-bottom:0; color:#AAA;">
+          <strong>Cryptographic Proof:</strong> Upon market resolution, the smart contract splits transaction fees and sponsored pools, sending USDC directly to the public wallet of the verified 501(c)(3) organization. Regulators and tax authorities receive verifiable, public on-chain proof that restricted individuals never exercised custody over the funds.
+        </p>
+      </div>
+
+      <!-- 4. BLOCKED STATE MONETIZATION -->
+      <div class="card" style="margin-bottom:0; border-color: rgba(200, 255, 0, 0.4);">
+        <div class="entity-tag" style="color:var(--lime);">User Retention Engine</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Bypassing "Prize Voiding" in Blocked U.S. States</h3>
+        <p style="font-size:14px; margin-bottom:10px;">
+          In jurisdictions with strict statutory bans on sweepstakes redemptions (such as Washington or Idaho), users are traditionally locked out of winning prizes.
+        </p>
+        <p style="font-size:14px; margin-bottom:0; color:#AAA;">
+          <strong>The "Play for Charity" Model:</strong> Excluded users play on the social tier. When they correctly forecast cultural events, their winning tokens unlock micro-donations funded by platform ad revenue to their charity of choice. Legally excluded users are transformed into active, loyal daily participants.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    810 PROTOCOL // COMPLIANCE &amp; CORPORATE BLUEPRINT // CONFIDENTIAL &amp; PROPRIETARY
+  </footer>
+
+</div>
+
+</body>
+</html>

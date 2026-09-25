@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>810 Protocol — Technical Architecture &amp; Due Diligence Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --card-bg: #111111;
+    --card-border: #222222;
+    --lime: #C8FF00;
+    --text-primary: #FFFFFF;
+    --text-muted: #8E8E93;
+    --text-dim: #555555;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.65;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--lime);
+    background: rgba(200, 255, 0, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(200, 255, 0, 0.2);
+  }
+
+  .btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary {
+    background: var(--lime);
+    color: #000;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #b5e600;
+  }
+
+  .btn-secondary {
+    background: #1c1c1e;
+    color: #fff;
+    border: 1px solid #333;
+  }
+
+  header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .doc-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  section {
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 .num {
+    color: var(--lime);
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--lime);
+    margin: 16px 0 8px 0;
+  }
+
+  p {
+    color: #CCCCCC;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card-highlight {
+    border-left: 4px solid var(--lime);
+    background: rgba(200, 255, 0, 0.02);
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 860px) {
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    h1 { font-size: 26px; }
+  }
+
+  .stack-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .stack-tier {
+    background: #141414;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .stack-tier.active {
+    border-color: rgba(200, 255, 0, 0.4);
+    background: #161810;
+  }
+
+  .stack-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--lime);
+    text-transform: uppercase;
+    font-weight: 700;
+    min-width: 140px;
+  }
+
+  .stack-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .stack-detail {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .entity-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background-color: var(--lime);
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: 0 0 8px var(--lime);
+  }
+
+  .endpoint-box {
+    background: #161616;
+    border: 1px solid #282828;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: #DDD;
+    margin-top: 10px;
+    word-break: break-all;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  th {
+    background: #161616;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid var(--card-border);
+  }
+
+  td {
+    padding: 14px 16px;
+    border: 1px solid var(--card-border);
+    color: #CCC;
+  }
+
+  ul {
+    margin-left: 20px;
+    margin-bottom: 16px;
+    color: #CCC;
+  }
+
+  li {
+    margin-bottom: 8px;
+    font-size: 14.5px;
+  }
+
+  footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--card-border);
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  @media print {
+    body { background: #FFF; color: #000; padding: 20px; }
+    .btn, .top-bar { display: none; }
+    .card, .stack-tier { background: #F8F9FA; border-color: #DDD; color: #000; }
+    th { background: #EEE; color: #000; }
+    td, p, li { color: #222; }
+    .stack-title, h1, h2, h3 { color: #000; }
+    .badge, .stack-label, h2 .num { color: #000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="top-bar">
+    <div class="badge">● 810 PROTOCOL // TECHNICAL ARCHITECTURE &amp; AUDIT REPORT</div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="https://810.one/data-room" class="btn btn-secondary">🗂 Data Room</a>
+      <a href="https://810.one/tech" class="btn btn-secondary">⚡ Tech</a>
+      <a href="https://810.one/regs" class="btn btn-secondary">⚖️ Regs</a>
+      <a href="https://810.one/gta6" class="btn btn-secondary">🎮 GTA 6</a>
+      <button onclick="window.print()" class="btn btn-primary">📄 Export PDF</button>
+    </div>
+  </div>
+
+  <header>
+    <h1>TECHNICAL ARCHITECTURE, LIVE DEPLOYMENT AUDIT &amp; BRAND LIQUIDITY ENGINE</h1>
+    <div class="subtitle">Institutional technical due diligence verification: a production-grade, distributed microservices and settlement stack powering real-time attention markets, multimodal AI oracles, and Base L2 smart contracts.</div>
+    <div class="doc-meta">
+      <span><strong>CLOUD INFRASTRUCTURE:</strong> Google Cloud Platform (Cloud Run, Vertex AI, Cloud SQL)</span>
+      <span><strong>BLOCKCHAIN &amp; SETTLEMENT:</strong> Base (Coinbase L2 · USDC)</span>
+      <span><strong>ONBOARDING:</strong> Privy Non-Custodial Account Abstraction</span>
+      <span><strong>STATUS:</strong> <span class="status-dot"></span>Live Production · Verified &amp; Operational</span>
+    </div>
+  </header>
+
+  <!-- EXECUTIVE DUE DILIGENCE AUDIT MEMO -->
+  <div class="card" style="border: 1px solid var(--lime); background: #0c0e08; margin-bottom: 36px; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px;">
+      <div class="entity-tag" style="margin-bottom:0;"><span class="status-dot"></span>CONFIDENTIAL // INSTITUTIONAL DUE DILIGENCE MEMO</div>
+      <span class="badge" style="font-size:10px;">GCP one-491501</span>
+    </div>
+    <pre style="font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.5; color: #EEE; overflow-x: auto; white-space: pre-wrap; margin: 0;">================================================================================
+810 PROTOCOL // TECHNICAL DUE DILIGENCE &amp; ASSET AUDIT MEMO
+================================================================================
+Target Entity: 810 Protocol (810 Holdings Inc. / 810 Protocol Labs Ltd.)
+Primary Infrastructure: Google Cloud Platform (Enterprise) + Ethereum L2 (Base)
+Current Maturity: Production-Grade Alpha / Deployed Microservices Fleet
+Audit Verdict: INSTITUTIONALLY DEFENSIBLE // REAL SOFTWARE MOAT
+
+1. THE SOFTWARE MOAT &amp; CORE SUBSYSTEMS
+   - Algorithmic Liquidity (LS-LMSR): Unlike legacy prediction markets (which suffer 
+     from empty order books on niche cultural events), 810 deploys a dedicated 
+     Liquidity-Sensitive Logarithmic Market Scoring Rule engine. This guarantees 
+     continuous trading liquidity and instant execution from $0.01 to $0.99.
+   - Multimodal Autonomous Oracles: Proprietary telemetry collectors continuously 
+     index YouTube Data v3, Twitter/X, Spotify, and SocialBlade APIs, filtered by 
+     Google Vertex AI models for sybil/bot defense. Payout finality is signed 
+     cryptographically to UMA and Chainlink CRE contracts.
+   - Non-Custodial Account Abstraction: Integration with Privy allows mainstream 
+     users to authenticate via social logins or Apple Pay. Embedded smart wallets 
+     are generated invisibly with zero seed-phrase friction.
+   - Multi-Region Cloud Fleet: 6 containerized microservices running on Google 
+     Cloud Run across US-Central1 and Europe-West1, backed by a managed ACID 
+     Cloud SQL (PostgreSQL 15) cluster.
+
+2. ASSET &amp; ARCHITECTURE SUMMARY
+   - Frontend Surfaces: Next.js SSR Web Client, Standalone PWA, Operator Portal.
+   - Compute &amp; Logic: API Gateway, LS-LMSR Matching Engine, Social Oracle, Fee Settler.
+   - Settlement Rails: Base L2 smart contracts with pure USDC collateral vaults.
+   - Ring-Fenced Compliance: U.S. Promotional Sweepstakes (Title 18 AMOE) via Delaware 
+     operating subsidiaries; independent Gibraltar entity governing international Web3.
+================================================================================</pre>
+  </div>
+
+  <!-- 01: LIVE PRODUCTION VERIFICATION (DUE DILIGENCE FOOTPRINT) -->
+  <section>
+    <h2><span class="num">01 //</span> Live Production Infrastructure &amp; Operational Verification</h2>
+    <p>
+      810 Protocol operates a containerized, multi-region distributed cloud and smart-contract architecture. Unlike early-stage concepts or mocked prototypes, 810 maintains an active, enterprise-grade footprint deployed across high-availability Google Cloud Platform (GCP) zones and Ethereum Layer-2 (Base):
+    </p>
+
+    <div class="grid-2">
+      <!-- 1. DESKTOP APPLICATION -->
+      <div class="card" style="margin-bottom:0; border-top: 2px solid var(--lime);">
+        <div class="entity-tag"><span class="status-dot"></span>Client Layer · Live Production</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Desktop Web Application (SSR Next.js)</h3>
+        <p style="font-size:14px; margin-bottom:10px; color:#AAA;">
+          Server-Side Rendered (Next.js App Router) interface with sub-second First Contentful Paint. Feeds live market books, interactive odds sliders ($0.01–$0.99), and embedded streaming.
+        </p>
+        <div class="endpoint-box">
+          <strong>Endpoint:</strong> https://eight10-desktop-xrduryn2ya-uc.a.run.app<br>
+          <strong>Region:</strong> GCP us-central1 (Cloud Run)
+        </div>
+      </div>
+
+      <!-- 2. MOBILE PWA CLIENT -->
+      <div class="card" style="margin-bottom:0; border-top: 2px solid var(--lime);">
+        <div class="entity-tag"><span class="status-dot"></span>Client Layer · Live Production</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Mobile Web &amp; PWA Engine</h3>
+        <p style="font-size:14px; margin-bottom:10px; color:#AAA;">
+          Standalone mobile-optimized client engineered for vertical TikTok-style attention feeds, fast swiping interaction targets, and one-tap biometric prediction confirmation.
+        </p>
+        <div class="endpoint-box">
+          <strong>Endpoint:</strong> https://eight10-mobile-422728451591.us-central1.run.app<br>
+          <strong>Region:</strong> GCP us-central1 (Cloud Run)
+        </div>
+      </div>
+
+      <!-- 3. CORE API GATEWAY -->
+      <div class="card" style="margin-bottom:0; border-top: 2px solid var(--lime);">
+        <div class="entity-tag"><span class="status-dot"></span>Compute Layer · Live Production</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Core API &amp; Routing Gateway</h3>
+        <p style="font-size:14px; margin-bottom:10px; color:#AAA;">
+          High-throughput Node.js microservice managing Prisma relational migrations, market life cycles, Coinbase Developer Platform (CDP) wallets, and Privy user session handshakes.
+        </p>
+        <div class="endpoint-box">
+          <strong>Endpoint:</strong> https://eight10-api-server-xrduryn2ya-ew.a.run.app<br>
+          <strong>Region:</strong> GCP europe-west1 (Cloud Run)
+        </div>
+      </div>
+
+      <!-- 4. HIGH-FREQUENCY MATCHING ENGINE -->
+      <div class="card" style="margin-bottom:0; border-top: 2px solid var(--lime);">
+        <div class="entity-tag"><span class="status-dot"></span>Compute Layer · Live Production</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">LS-LMSR High-Frequency Matching Engine</h3>
+        <p style="font-size:14px; margin-bottom:10px; color:#AAA;">
+          Dedicated low-latency algorithmic matching engine executing continuous Logarithmic Market Scoring Rules (LS-LMSR). Guarantees perpetual liquidity without empty order books.
+        </p>
+        <div class="endpoint-box">
+          <strong>Endpoint:</strong> https://eight10-matching-engine-xrduryn2ya-ew.a.run.app<br>
+          <strong>Region:</strong> GCP europe-west1 (Cloud Run)
+        </div>
+      </div>
+
+      <!-- 5. AUTONOMOUS ORACLE PIPELINE -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag"><span class="status-dot"></span>Oracle Pipeline · Live Production</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">Multimodal Social Oracle &amp; Vertex AI</h3>
+        <p style="font-size:14px; margin-bottom:10px; color:#AAA;">
+          Autonomous worker instances scraping continuous telemetry from YouTube Data v3, Twitter/X API, Spotify, and SocialBlade. Validated by Google Vertex AI models for anti-bot filtering.
+        </p>
+        <div class="endpoint-box">
+          <strong>Service:</strong> eight10-social-oracle &amp; eight10-vertex-ai<br>
+          <strong>Region:</strong> GCP europe-west1
+        </div>
+      </div>
+
+      <!-- 6. RELATIONAL PERSISTENCE -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="entity-tag"><span class="status-dot"></span>Storage Layer · Live Production</div>
+        <h3 style="color:#FFF; font-size:17px; margin-top:0;">ACID Cloud SQL Cluster</h3>
+        <p style="font-size:14px; margin-bottom:10px; color:#AAA;">
+          Enterprise PostgreSQL 15 database running in high-availability mode with automated snapshotting, relational foreign-key integrity, and sub-10ms transactional execution.
+        </p>
+        <div class="endpoint-box">
+          <strong>Cluster:</strong> one-491501:europe-west1:banco-db<br>
+          <strong>Engine:</strong> PostgreSQL 15 High Availability
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02: HIGH-THROUGHPUT STACK TIERS -->
+  <section>
+    <h2><span class="num">02 //</span> High-Throughput Technical Stack &amp; Microservices Architecture</h2>
+    <p>810 is engineered to absorb massive viral surges during live cultural moments (e.g. surprise album drops, creator showdowns) without user-facing downtime or gas price spikes:</p>
+
+    <div class="stack-container">
+      <div class="stack-tier">
+        <div class="stack-label">Tier 1 // Client</div>
+        <div>
+          <div class="stack-title">Consumer Web &amp; Mobile UI (Next.js &amp; Tailwind)</div>
+          <div class="stack-detail">Instant social authentication via Privy. Embedded non-custodial smart wallet creation with zero seed phrases. Cross-device state synchronization.</div>
+        </div>
+      </div>
+
+      <div class="stack-tier">
+        <div class="stack-label">Tier 2 // Edge</div>
+        <div>
+          <div class="stack-title">Cloudflare Enterprise Perimeter</div>
+          <div class="stack-detail">WAF, advanced DDoS mitigation, and precision IP/GPS geo-fencing dynamically routing US sweepstakes users from international crypto orderbook participants.</div>
+        </div>
+      </div>
+
+      <div class="stack-tier active">
+        <div class="stack-label">Tier 3 // Compute</div>
+        <div>
+          <div class="stack-title">Google Cloud Run Microservices</div>
+          <div class="stack-detail">Horizontally auto-scaling microservices hosting the LS-LMSR matching engine, API gateway, Cloud SQL PostgreSQL persistence, and Redis pub/sub state buffers.</div>
+        </div>
+      </div>
+
+      <div class="stack-tier">
+        <div class="stack-label">Tier 4 // Oracles</div>
+        <div>
+          <div class="stack-title">Multimodal AI Social Oracle (Vertex AI)</div>
+          <div class="stack-detail">Continuous telemetry ingestion (TikTok, YouTube, Spotify, X, Strava) processed by Vertex AI anti-sybil models. Cryptographic resolution hooks via UMA and Chainlink.</div>
+        </div>
+      </div>
+
+      <div class="stack-tier">
+        <div class="stack-label">Tier 5 // Settlement</div>
+        <div>
+          <div class="stack-title">Base L2 Blockchain (Coinbase)</div>
+          <div class="stack-detail">Sub-cent gas fees and instant transaction finality (&lt;2s). Pure USDC non-custodial vaults where users maintain sovereign control over their capital.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03: CREATOR MONETIZATION & BRAND EQUITY LIQUIDITY -->
+  <section>
+    <h2><span class="num">03 //</span> Creator Economy Monetization &amp; Brand Equity Liquidity Engine</h2>
+    <div class="card card-highlight">
+      <p style="font-size: 16px; color: #FFF; margin-bottom: 12px;">
+        <strong>Solving the Fatal Illiquidity Flaw in Creator Brand Deals</strong>
+      </p>
+      
+      <p>
+        In today's creator economy, elite talent no longer settles for static sponsorship reads. Instead, creators negotiate <strong>equity and revenue share in brand startups</strong> (CPG beverages, cosmetics, apparel, and consumer tech like Prime, Feastables, and Skims).
+      </p>
+
+      <p>
+        <strong>The Problem: Creator Equity is Completely Illiquid.</strong><br>
+        A creator drives billions of views, viral social momentum, and immediate retail sales <em>today</em>. However, their brand equity is locked up for 5 to 10 years, waiting for an M&amp;A buyout or an IPO that may never materialize. If the company fails before an exit, the creator captures zero wealth from their cultural contribution.
+      </p>
+
+      <p>
+        <strong>The 810 Solution: Liquid Synthetic Attention Derivatives.</strong><br>
+        810 launches tradeable prediction markets indexed to verifiable brand performance metrics:
+      </p>
+
+      <ul>
+        <li><strong>Retail Sell-Through Velocity:</strong> e.g., Will Brand X sell 1,000,000 units at Target/Walmart before Q4 ends?</li>
+        <li><strong>TikTok Shop &amp; E-Commerce Volume:</strong> e.g., Will Creator Y's beauty drop cross $500k in GMV within 48 hours?</li>
+        <li><strong>Streaming &amp; Mindshare Sprints:</strong> e.g., Will Creator Z's new venture outperform competing legacy products in monthly search velocity?</li>
+      </ul>
+
+      <div class="grid-3" style="margin-top: 20px;">
+        <div class="card" style="margin-bottom: 0; background: #161616;">
+          <h3>For Creators</h3>
+          <p style="font-size: 13.5px; color: var(--text-muted);">
+            Monetize cultural impact in real time and hedge illiquid brand equity stakes without having to wait a decade for an acquisition.
+          </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 0; background: #161616;">
+          <h3>For Brands</h3>
+          <p style="font-size: 13.5px; color: var(--text-muted);">
+            Generate massive viral buzz, real-time demand validation, and deeper fan loyalty with <strong>zero cap-table dilution</strong>.
+          </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 0; background: #161616;">
+          <h3>For Bettors</h3>
+          <p style="font-size: 13.5px; color: var(--text-muted);">
+            Directly speculate on the commercial success of the creators, products, and culture they consume daily.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04: AI SOCIAL ORACLE MOAT -->
+  <section>
+    <h2><span class="num">04 //</span> The Multimodal AI Social Oracle Moat &amp; Algorithmic Finality</h2>
+    <div class="card">
+      <p>Legacy prediction markets are limited to simple binary outcomes like election results or sports scores. 810's proprietary AI models quantify and resolve culture:</p>
+      
+      <ul>
+        <li><strong>Multi-Platform Ingestion:</strong> Continuous API and automated scrapers monitoring YouTube concurrents, TikTok view velocity, Spotify top 50, Instagram engagement, and Strava leaderboards.</li>
+        <li><strong>Vertex AI Anti-Bot Filtering:</strong> Proprietary NLP and computer vision models analyze comment quality, user graph authenticity, and view acceleration to filter out coordinated bot farms.</li>
+        <li><strong>Deterministic Cryptographic Finality:</strong> When an event closes, the AI signs cryptographic data proposals submitted to UMA's Optimistic Oracle on Base, guaranteeing mathematically tamper-proof payouts.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 05: SMART CONTRACT SETTLEMENT RAILS -->
+  <section>
+    <h2><span class="num">05 //</span> Base L2 Blockchain &amp; Non-Custodial Settlement Rails</h2>
+    <div class="card">
+      <p>
+        810 executes settlement using non-custodial smart contracts deployed to Base L2 (Coinbase Ethereum Layer-2), providing near-instant finality (&lt;2s) and negligible transaction overhead (&lt;$0.01 per trade):
+      </p>
+      <ul>
+        <li><strong>Collateral &amp; Denomination:</strong> Pure USDC (USD Coin) for all digital asset tiers, eliminating token volatility risk for participants and sponsors.</li>
+        <li><strong>Market Factory Contracts:</strong> Programmatic on-chain market creation with standardized ERC-20 outcome share tokens.</li>
+        <li><strong>Conditional Token Framework (CTF):</strong> Binary outcome minting, continuous trading liquidity, and atomic prize pool redemptions.</li>
+        <li><strong>Creator Royalty Distributor:</strong> Programmatic fee splits (40–70 bps) routed directly to verified creator wallets or designated 501(c)(3) charitable vaults.</li>
+        <li><strong>Automated Buffer Reserves:</strong> Platform liquidity pools maintaining dynamic reserves for zero-slippage settlement.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06: SECURITY & SOC 2 -->
+  <section>
+    <h2><span class="num">06 //</span> Security Posture, Audits &amp; SOC 2 Compliance Roadmap</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Security Domain</th>
+            <th>Protocol Controls &amp; Implementation</th>
+            <th>Institutional Standard</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Perimeter &amp; Network</strong></td>
+            <td>Cloudflare Enterprise WAF, rate limiting, and automated bot challenge mitigations.</td>
+            <td>SOC 2 Common Criteria</td>
+          </tr>
+          <tr>
+            <td><strong>Key Management</strong></td>
+            <td>Google Cloud KMS with automated key rotation and hardware security modules (HSMs). Zero hardcoded credentials in source repositories.</td>
+            <td>FIPS 140-2 Level 3</td>
+          </tr>
+          <tr>
+            <td><strong>Smart Contracts</strong></td>
+            <td>Built on OpenZeppelin audited ERC primitives. Multi-Sig timelock emergency controls.</td>
+            <td>Halborn / OpenZeppelin Standards</td>
+          </tr>
+          <tr>
+            <td><strong>SOC 2 Compliance</strong></td>
+            <td>Continuous control monitoring via Vanta. SOC 2 Type I audit engagement scheduled for Q1 2027.</td>
+            <td>AICPA SOC 2 Type I / II</td>
+          </tr>
+          <tr>
+            <td><strong>KYC &amp; AML Screening</strong></td>
+            <td>Biometric liveness and sanctions screening through Persona / Sumsub at Sweeps redemption.</td>
+            <td>FinCEN / OFAC Sanctions</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    810 PROTOCOL // TECHNICAL ARCHITECTURE &amp; DUE DILIGENCE AUDIT // CONFIDENTIAL &amp; PROPRIETARY
+  </footer>
+
+</div>
+
+</body>
+</html>
