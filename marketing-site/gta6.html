@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>810 Protocol — GTA 6 Beta Go-Live & Creator Attention Economy</title>
+
+<!-- Open Graph / Facebook / Discord / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://810.one/gta6">
+<meta property="og:title" content="810 Protocol — GTA 6 Beta Go-Live & Creator Attention Economy">
+<meta property="og:description" content="Predict the hype. Trade your attention. The cultural second-screen for the biggest entertainment drop in human history.">
+<meta property="og:image" content="https://810.one/og-gta6.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://810.one/gta6">
+<meta name="twitter:title" content="810 Protocol — GTA 6 Beta Go-Live & Creator Attention Economy">
+<meta name="twitter:description" content="Predict the hype. Trade your attention. The cultural second-screen for the biggest entertainment drop in human history.">
+<meta name="twitter:image" content="https://810.one/og-gta6.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --card-bg: #111111;
+    --card-border: #222222;
+    --lime: #C8FF00;
+    --text-primary: #FFFFFF;
+    --text-muted: #8E8E93;
+    --text-dim: #555555;
+    --accent-red: #FF3B30;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.65;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* TOP ACTION BAR */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--lime);
+    background: rgba(200, 255, 0, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(200, 255, 0, 0.2);
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary {
+    background: var(--lime);
+    color: #000;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #b5e600;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: #1c1c1e;
+    color: #fff;
+    border: 1px solid #333;
+  }
+
+  .btn-secondary:hover {
+    background: #2c2c2e;
+    border-color: #555;
+  }
+
+  /* HEADER */
+  header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .doc-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .doc-meta span strong {
+    color: var(--text-muted);
+  }
+
+  /* CONTENT SECTIONS */
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 36px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--lime);
+  }
+
+  h2::before {
+    content: "//";
+    font-family: 'Space Mono', monospace;
+    color: var(--text-dim);
+  }
+
+  h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    color: #cccccc;
+    font-size: 15px;
+  }
+
+  ul, ol {
+    margin-bottom: 20px;
+    padding-left: 24px;
+    color: #cccccc;
+    font-size: 15px;
+  }
+
+  li { margin-bottom: 8px; }
+
+  strong { color: #ffffff; }
+
+  /* CARDS & HIGHLIGHT BOXES */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .card-highlight {
+    border-left: 4px solid var(--lime);
+  }
+
+  .callout {
+    background: rgba(200, 255, 0, 0.05);
+    border: 1px solid rgba(200, 255, 0, 0.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 28px 0;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  th {
+    background: #181818;
+    color: var(--lime);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  td { color: #cccccc; }
+
+  tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+  /* DIAGRAM / CODE BLOCK */
+  pre {
+    background: #0d0d0d;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--lime);
+    overflow-x: auto;
+    margin: 20px 0;
+    line-height: 1.5;
+  }
+
+  /* GTA 6 × 810 HERO BANNER STYLES */
+  .gta-banner {
+    position: relative;
+    width: 100%;
+    min-height: 340px;
+    background: radial-gradient(ellipse at 50% 120%, #ff007f 0%, #5a0b73 35%, #150324 70%, #080808 100%);
+    border: 2px solid #ff007f;
+    border-radius: 18px;
+    margin-bottom: 36px;
+    overflow: hidden;
+    box-shadow: 0 0 45px rgba(255, 0, 127, 0.45), inset 0 0 45px rgba(0, 240, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 36px 20px 28px 20px;
+    text-align: center;
+  }
+
+  .gta-grid-floor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 140px;
+    background-image: 
+      linear-gradient(rgba(0, 240, 255, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 0, 127, 0.25) 1px, transparent 1px);
+    background-size: 38px 20px;
+    transform: perspective(280px) rotateX(60deg);
+    transform-origin: bottom center;
+    pointer-events: none;
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  }
+
+  .palm-left {
+    position: absolute;
+    bottom: -10px;
+    left: 10px;
+    width: 130px;
+    height: 220px;
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .palm-right {
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+    width: 130px;
+    height: 220px;
+    transform: scaleX(-1);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .gta-top-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.9);
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    z-index: 2;
+    backdrop-filter: blur(6px);
+  }
+
+  @font-face {
+    font-family: 'Pricedown';
+    src: url('/pricedown.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .pricedown-title {
+    font-family: 'Pricedown', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: 2px;
+    text-transform: lowercase;
+    color: #FFFFFF;
+    text-shadow: 
+      -2.5px -2.5px 0 #000,  
+       2.5px -2.5px 0 #000,
+      -2.5px  2.5px 0 #000,
+       2.5px  2.5px 0 #000,
+       0px 0px 20px rgba(0, 240, 255, 0.85),
+       0px 6px 12px rgba(0,0,0,0.95);
+    margin-bottom: -28px;
+    z-index: 5;
+    position: relative;
+  }
+
+  .gta-logo-lockup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    margin: 8px 0;
+    max-width: 720px;
+    width: 100%;
+  }
+
+  .gta-logo-svg {
+    width: 100%;
+    height: auto;
+    max-height: 190px;
+    filter: drop-shadow(0 0 30px rgba(255, 0, 127, 0.75));
+  }
+
+  .gta-tagline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 16px rgba(255, 0, 127, 0.95), 0 2px 4px #000;
+    margin-top: 8px;
+    z-index: 2;
+  }
+
+  .gta-subtagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: var(--lime);
+    text-shadow: 0 0 10px rgba(200, 255, 0, 0.7);
+    margin-top: 6px;
+    z-index: 2;
+  }
+
+  .gta-pills {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .gta-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 700;
+  }
+
+  .pill-pink {
+    background: rgba(255, 0, 127, 0.25);
+    color: #ff55a3;
+    border: 1px solid rgba(255, 0, 127, 0.6);
+    text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
+  }
+
+  .pill-cyan {
+    background: rgba(0, 240, 255, 0.2);
+    color: #00f0ff;
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+  }
+
+  .pill-lime {
+    background: rgba(200, 255, 0, 0.2);
+    color: var(--lime);
+    border: 1px solid rgba(200, 255, 0, 0.5);
+    text-shadow: 0 0 8px rgba(200, 255, 0, 0.6);
+  }
+
+  /* PRINT STYLING */
+  @media print {
+    body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+    .top-bar { display: none !important; }
+    .gta-banner { display: none !important; }
+    .card { background: #fff !important; border: 1px solid #ccc !important; color: #000 !important; }
+    h1, h2, h3, strong { color: #000 !important; }
+    p, li, td { color: #333 !important; }
+    th { background: #eee !important; color: #000 !important; }
+    pre { background: #f5f5f5 !important; color: #000 !important; border: 1px solid #ddd !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- TOP ACTION BAR -->
+  <div class="top-bar">
+    <div class="badge">Institutional Investor Memo // Confidential</div>
+    <div class="action-buttons">
+      <a href="https://810.one/data-room" class="btn btn-secondary">🗂 Data Room</a>
+      <a href="https://810.one/tech" class="btn btn-secondary">⚡ Tech</a>
+      <a href="https://810.one/regs" class="btn btn-secondary">⚖️ Regs</a>
+      <a href="https://810.one" target="_blank" class="btn btn-primary">🌐 810 Main Portal</a>
+    </div>
+  </div>
+
+  <!-- GTA VI × 810 EPIC HERO BANNER -->
+  <div class="gta-banner">
+    <div class="gta-grid-floor"></div>
+
+    <!-- Palm Left -->
+    <svg class="palm-left" viewBox="0 0 100 160" fill="#0d0414">
+      <path d="M 45 160 Q 48 90 52 40 Q 30 20 5 35 Q 25 15 50 38 Q 65 10 90 20 Q 70 25 54 42 Q 75 48 95 65 Q 68 55 53 45 Q 50 90 48 160 Z" fill="#090210" stroke="#ff007f" stroke-width="0.75" opacity="0.9"/>
+    </svg>
+
+    <!-- Palm Right -->
+    <svg class="palm-right" viewBox="0 0 100 160" fill="#0d0414">
+      <path d="M 45 160 Q 48 90 52 40 Q 30 20 5 35 Q 25 15 50 38 Q 65 10 90 20 Q 70 25 54 42 Q 75 48 95 65 Q 68 55 53 45 Q 50 90 48 160 Z" fill="#090210" stroke="#ff007f" stroke-width="0.75" opacity="0.9"/>
+    </svg>
+
+    <div class="gta-top-tag">★ VICE CITY 2026 // ATTENTION PREDICTION MARKETS ★</div>
+
+    <div class="gta-logo-lockup">
+      <!-- REAL PRICEDOWN FONT FOR GRAND THEFT AUTO -->
+      <div class="pricedown-title">grand theft auto</div>
+
+      <svg class="gta-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="100%" height="190">
+        <defs>
+          <linearGradient id="viGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF007F" />
+            <stop offset="40%" stop-color="#FF3366" />
+            <stop offset="75%" stop-color="#FF6B00" />
+            <stop offset="100%" stop-color="#FFD000" />
+          </linearGradient>
+          <linearGradient id="limeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#E5FF44" />
+            <stop offset="100%" stop-color="#A3FF00" />
+          </linearGradient>
+          <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- AMBIENT NEON GLOW -->
+        <circle cx="400" cy="100" r="160" fill="#FF007F" opacity="0.18" filter="url(#neonGlow)" />
+
+        <!-- VI LOGO BACKDROP -->
+        <g filter="url(#neonGlow)">
+          <!-- V -->
+          <path d="M 210 20 L 295 20 L 350 155 L 405 20 L 490 20 L 390 185 L 310 185 Z" fill="url(#viGrad)" stroke="#00F0FF" stroke-width="2.5" stroke-linejoin="round" />
+          <!-- I -->
+          <path d="M 515 20 L 590 20 L 590 185 L 515 185 Z" fill="url(#viGrad)" stroke="#00F0FF" stroke-width="2.5" stroke-linejoin="round" />
+        </g>
+
+        <!-- 810 OVERLAY LOCKUP -->
+        <g>
+          <!-- Dark Backplate for 810 to pop -->
+          <text x="400" y="146" text-anchor="middle" font-family="'Space Grotesk', Impact, sans-serif" font-weight="900" font-size="115" font-style="italic" letter-spacing="-2" fill="#080808" stroke="#080808" stroke-width="16" stroke-linejoin="round">810</text>
+          <!-- Neon Cyan Shadow -->
+          <text x="404" y="150" text-anchor="middle" font-family="'Space Grotesk', Impact, sans-serif" font-weight="900" font-size="115" font-style="italic" letter-spacing="-2" fill="#00F0FF" opacity="0.8">810</text>
+          <!-- Lime 810 Core -->
+          <text x="400" y="146" text-anchor="middle" font-family="'Space Grotesk', Impact, sans-serif" font-weight="900" font-size="115" font-style="italic" letter-spacing="-2" fill="url(#limeGrad)" stroke="#080808" stroke-width="3">810</text>
+        </g>
+
+        <!-- PROTOCOL SUBTITLE -->
+        <text x="400" y="188" text-anchor="middle" font-family="'Space Mono', monospace" font-weight="700" font-size="11" letter-spacing="6" fill="#00F0FF" filter="drop-shadow(0 0 8px rgba(0,240,255,0.9))">ATTENTION MARKETS // VICE CITY</text>
+      </svg>
+    </div>
+
+    <div class="gta-tagline">PREDICT THE HYPE. TRADE YOUR ATTENTION.</div>
+    <div class="gta-subtagline">THE CULTURAL SECOND-SCREEN FOR THE BIGGEST ENTERTAINMENT DROP IN HUMAN HISTORY</div>
+
+    <div class="gta-pills">
+      <span class="gta-pill pill-pink">● $1.2B DAY-1 ATTENTION VOLUME</span>
+      <span class="gta-pill pill-cyan">● CHAINLINK ORACLE VERIFIED</span>
+      <span class="gta-pill pill-lime">● 50% CLIPPER REVENUE SHARE</span>
+      <span class="gta-pill pill-pink">● BETA DROP NOV 19, 2026</span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <h1>810 Protocol // GTA 6 Beta Go-Live & The Perpetual Attention Economy</h1>
+    <div class="subtitle">Executive Marketing Strategy: The Trojan Horse for Cultural Liquidity</div>
+    <div class="doc-meta">
+      <span><strong>Prepared for:</strong> Strategic Investors & Angels</span>
+      <span><strong>Target Beta Drop:</strong> November 19, 2026</span>
+      <span><strong>Pre-Launch Window:</strong> October 15 – November 18, 2026</span>
+      <span><strong>Live Data Room:</strong> <a href="https://810.one/data-room" style="color:#C8FF00;">810.one/data-room</a> (Tech · Regs · GTA 6)</span>
+    </div>
+  </header>
+
+  <!-- SECTION 1 -->
+  <section>
+    <h2>1. Executive Thesis: The Single Biggest Entertainment Event in Human History</h2>
+    <div class="card card-highlight">
+      <p>Traditional sportsbooks only understand 90 minutes on a football pitch. Polymarket only understands US electoral cycles. Neither possesses the cultural native design, visual video distribution, or real-time speed required to capture entertainment virality.</p>
+      <p><strong>GTA 6 is the largest entertainment event in human history.</strong> It is projected to generate <strong>over $1.2B in sales on Day 1 alone</strong>, eclipsing the entire worldwide box office run of any Hollywood blockbuster, with over <strong>200 million gamers and viewers</strong> concentrated on a single cultural focal point.</p>
+      <p>810 operates as <strong>The Nasdaq of Culture</strong>. We do not take the other side of trades (we are an exchange, not a casino). We provide the programmatic infrastructure where the global audience wagers on <strong>attention velocity, streaming records, soundtrack virality, and creator milestones</strong>.</p>
+      <p>GTA 6 is our <strong>Trojan Horse</strong>: we acquire tens of thousands of verified Gen Z traders at <strong>near-zero Customer Acquisition Cost (CAC)</strong> during peak launch hysteria, and permanently graduate them into our year-round Creator Attention Markets.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section>
+    <h2>2. Realistic Beta Execution: How 810 Operates (Lean, Automated, Asymmetrical)</h2>
+    <p>We do not run bloated Web2 agency campaigns or burn capital on $50,000 upfront creator retainers. 810 scales via programmatic distribution, automation, and performance-based incentives:</p>
+
+    <pre>
+[ Automated Scrape Engine ] ──> [ P2P Creator Army ] ──> [ Multimodal AI Oracle ] ──> [ Continuous Retention ]
+200+ High-Yield Channels        Performance Yield (40-70bps)     Instant Livestream Settlement     GTA RP & Cultural Drops
+    </pre>
+
+    <ul>
+      <li><strong>Automated Social Seeding:</strong> We target 200+ dedicated YouTube gaming channels, video essayists, mapping analysts, and high-aesthetic Instagram/TikTok culture curators.</li>
+      <li><strong>The "Zero-Retainer" Performance Model:</strong> Creators receive bespoke referral links earning <strong>40–70 bps on trading volume</strong> driven by their community. We never pay for vanity views; we pay exclusively for active liquidity.</li>
+      <li><strong>Automated Multimodal AI Oracle:</strong> Ingests YouTube, Twitch, and Kick livestreams in real-time, validates in-game triggers via computer vision + LLM consensus, and settles trades instantly on-chain—eliminating manual moderation overhead.</li>
+      <li><strong>Frictionless Onboarding:</strong> Single-click entry via social login and sweepstakes contest points, with Base USDC non-custodial trading for global Web3 native players.</li>
+    </ul>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section>
+    <h2>3. High-Voltage Attention Economy Markets (Concrete Market Examples)</h2>
+    <p>810 monetizes the quantitative data layers of the internet: <strong>YouTube view velocity, Spotify stream counts, livestream concurrents, and cultural milestones.</strong></p>
+
+    <div class="card">
+      <h3>A. The YouTube & Virality Index (Pre-Launch Anticipation)</h3>
+      <ul>
+        <li><em>"Will GTA 6 Trailer 2 cross 100M views on YouTube in under 48 hours?"</em></li>
+        <li><em>"Will Gameranx's 'GTA 6 — Before You Buy' review video hit 5M views within 7 days of upload?"</em></li>
+        <li><em>"Will GTA Series Videos release a 100% completion guide within 96 hours of worldwide launch?"</em></li>
+        <li><em>"Will the official Metacritic review score open at 97 or higher when the review embargo lifts?"</em></li>
+      </ul>
+
+      <h3>B. The Music & Spotify Firehose (Vice City Soundtrack)</h3>
+      <ul>
+        <li><em>"Will the lead single debuted on Vice City Radio enter the Spotify Global Top 50 within 14 days?"</em></li>
+        <li><em>"Will an unreleased track by Drake or The Weeknd premiere exclusively via the in-game radio station?"</em></li>
+        <li><em>"Will the official GTA 6 Soundtrack playlist on Spotify surpass 5 million saves within 30 days?"</em></li>
+        <li><em>"Will a South Florida hip-hop artist (Kodak Black, Denzel Curry, Rick Ross) have 3 or more tracks featured on the rap station?"</em></li>
+      </ul>
+
+      <h3>C. Livestream Marathons & Creator Showdowns</h3>
+      <ul>
+        <li><em>"Who completes the main storyline first: Kai Cenat vs. xQc?"</em></li>
+        <li><em>"Will Kai Cenat's GTA 6 marathon broadcast break his all-time peak concurrent viewership (>400,000 live)?"</em></li>
+        <li><em>"Will DarkViperAU successfully complete a 'No-Hit / Zero Damage' GTA 6 run within 60 days of launch?"</em></li>
+        <li><em>"Will speedrun.com verify a sub-8-hour campaign completion time in Week 1?"</em></li>
+      </ul>
+
+      <h3>D. Pop Culture & Long-Form Discourse</h3>
+      <ul>
+        <li><em>"Will Joe Rogan dedicate a full episode of The Joe Rogan Experience (JRE) to GTA 6 within 30 days of release?"</em></li>
+        <li><em>"Will an authentic real-life 'Florida Man' news story get an identifiable in-game 'Stranger & Freaks' mission parody?"</em></li>
+        <li><em>"Will Rockstar Games announce an official PC release date before December 31, 2026?"</em></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section>
+    <h2>4. Strategic Distribution Pivot: YouTube-First Architecture (Anti-X Slop)</h2>
+    <div class="callout">
+      <p><strong>Why We Deprioritize X (Twitter):</strong> X has become saturated with bot-farmed engagement bait, automated replies, and low-attention doomscrolling. For gaming and entertainment virality, <strong>YouTube is the undisputed king of high-intent attention</strong>:</p>
+      <ul>
+        <li><strong>High-Intent Watch Time:</strong> 15–45 minute video essays, map analyses, and lore breakdowns command captive, high-converting attention spans.</li>
+        <li><strong>Conversion Power:</strong> Pinned comments and video descriptions on YouTube convert at <strong>12–20%</strong> to signups, compared to &lt;0.5% on X.</li>
+        <li><strong>The Record Holder:</strong> GTA 6 Trailer 1 set the all-time 24-hour YouTube world record (93M+ views). YouTube is the native home of GTA hype.</li>
+        <li><strong>Key Channels Targeted:</strong> Gameranx (7.8M), IGN (18M), GTA Series Videos (3.8M), DarkViperAU (2.2M), LegacyKillaHD (780K), Badger Goodger (520K), and Digital Foundry (1.4M).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section>
+    <h2>5. The 365-Day GTA RP Economy (The Infinite Creator Engine)</h2>
+    <p>Most investors make the mistake of thinking a gaming launch dies after 3 weeks when players finish the campaign. In reality, the single-player game transitions immediately into <strong>GTA Online 2 & GTA Roleplay (RP)</strong> (servers like NoPixel 5.0 and District 10).</p>
+
+    <div class="card">
+      <p><strong>Why GTA RP is a 365-Day Attention Machine:</strong></p>
+      <ul>
+        <li>GTA RP is a 24/7/365 live unscripted soap opera with hundreds of full-time creators playing persistent characters (cops, cartel bosses, lawyers, politicians).</li>
+        <li>Viewers obsess over gang wars, court trials, police chases, mayoral elections, and streamer betrayals every single day.</li>
+        <li><strong>Perpetual Markets:</strong> <em>"Will Chang Gang win the courtroom verdict against the PD?"</em> / <em>"Will Buddha’s crew successfully breach the Pacific Standard Bank?"</em></li>
+        <li><strong>Creator Attention Tickers ($100k Assetization):</strong> Streamers register their own Attention Ticker (e.g. <code>$BUDDHA</code>, <code>$CHANG</code>, <code>$NOPIXEL</code>), capturing a perpetual 40–70 bps volume yield on their community's cultural speculation.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section>
+    <h2>6. Specialist Creator Army, Multi-Social Affiliates & Chainlink PR Strategy</h2>
+    <p>Rather than paying expensive traditional ad retainers, 810 deploys a high-velocity, performance-driven affiliate army targeting specialist GTA 6 creators across every major social platform, amplified by our institutional Chainlink partnership.</p>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <h3 style="color: #FFF; margin-top: 0;">Multi-Social Distribution Across Specialist GTA 6 Creators</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Platform / Channel</th>
+            <th>Specialist Creator Targets</th>
+            <th>Content Format &amp; Hook</th>
+            <th>Conversion Mechanism</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>YouTube Gaming &amp; Lore</strong></td>
+            <td>LegacyKillaHD, Gameranx, INTER, Badger Goodger, GTA Series Videos, YongYea</td>
+            <td>15–20 min deep-dive map breakdowns, story leak analyses, and trailer easter eggs.</td>
+            <td>Sponsored 30-sec prediction shoutouts, pinned comments, and video description deep-links.</td>
+          </tr>
+          <tr>
+            <td><strong>TikTok &amp; IG Reels</strong></td>
+            <td>Retro Maggie, GTA6Countdown, RockstarUniverse, ViceCityNews, FloridaManMemes</td>
+            <td>30-sec fast-paced leak debates flashing live 810 visual Yes/No odds cards in first 3 seconds.</td>
+            <td>Pinned comment &amp; bio affiliate links: <em>"Vote on the leak on 810—top predictor takes the pot."</em></td>
+          </tr>
+          <tr>
+            <td><strong>Twitch &amp; Kick Streaming</strong></td>
+            <td>Kai Cenat, xQc, Jynxzi, Fanum, and 50+ dedicated secondary clip channels</td>
+            <td>24/7 marathon streams, campaign speedruns, and live rage-quits/milestones.</td>
+            <td>Real-time second-screen prediction widgets and 15-min reaction clips linked to active markets.</td>
+          </tr>
+          <tr>
+            <td><strong>Spotify &amp; Music Culture</strong></td>
+            <td>Vice City Radio playlist curators, hip-hop leak pages, music commentary accounts</td>
+            <td>Soundtrack tracklist predictions and rumored exclusive artist debuts (Drake, Weeknd, Carti).</td>
+            <td>In-playlist links and music TikTok breakdowns linking to radio station prediction pools.</td>
+          </tr>
+          <tr>
+            <td><strong>Podcasts &amp; Culture Shows</strong></td>
+            <td>Joe Rogan Experience (JRE), Flagrant (Andrew Schulz), Friends Per Second, Sacred Symbols, The Yard, Kinda Funny</td>
+            <td>Long-form debates on cultural impact, celebrity cameos, Florida Man parodies, and review controversies.</td>
+            <td>Dedicated prediction markets on host takes/cameos, episode description links, and podcast clip channels driving traffic to active pools.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="color: var(--lime); margin-top: 0;">The Creator Affiliate Engine &amp; Viral Monetization</h3>
+        <p>Short-form clippers generate tens of millions of views discussing GTA 6 but make pennies from Web2 creator funds. 810 transforms their viral posts into high-yield revenue drivers:</p>
+        <ul>
+          <li><strong>Custom Tracked Deep-Links:</strong> Each specialist creator receives a unique tracked referral URL linking directly to markets relevant to their video.</li>
+          <li><strong>Viral Post Monetization:</strong> Creators and clippers earn ongoing revenue share on all trading volume generated by their audience, turning virality into immediate cash yield.</li>
+          <li><strong>Clipper VIP War Room:</strong> Real-time Telegram and Discord channels alerting 200+ vetted clippers the second a new leak or debate drops with ready-to-use graphics and odds.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 style="color: var(--lime); margin-top: 0;">Chainlink Partnership &amp; Global PR Co-Marketing Blitz</h3>
+        <p>Chainlink serves as our official oracle and decentralized data infrastructure partner, validating stream milestones and off-chain data feeds. Chainlink will co-market and PR 810 across their global network:</p>
+        <ul>
+          <li><strong>Joint Press Release:</strong> Global wire distribution announcing 810 &amp; Chainlink powering prediction markets for the world's largest entertainment launch.</li>
+          <li><strong>Chainlink Official PR Channels:</strong> Featured case studies, ecosystem newsletters, and dedicated coverage on Chainlink's blog and Twitter/X (1M+ reach).</li>
+          <li><strong>Tier-1 Gaming &amp; Culture Press:</strong> Co-pitching entertainment, tech, and gaming publications (IGN, Dexerto, VentureBeat, Kotaku) on fans actively pricing cultural news.</li>
+          <li><strong>Institutional Validation:</strong> Chainlink's backing positions 810 as legitimate market infrastructure rather than a generic betting site.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section>
+    <h2>7. Key Performance Indicators (Beta Targets)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Launch Week (Day 1–7)</th>
+          <th>Beta Cumulative (Day 1–30)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Total Trading Volume</strong></td>
+          <td>$500,000 – $1,000,000</td>
+          <td>$2,500,000 – $3,000,000</td>
+        </tr>
+        <tr>
+          <td><strong>Active Paying / Trading Users</strong></td>
+          <td>5,000 – 10,000 verified fans</td>
+          <td>15,000 – 25,000 verified accounts</td>
+        </tr>
+        <tr>
+          <td><strong>Organic Social Impressions</strong></td>
+          <td>25,000,000+ (YouTube &amp; Shorts)</td>
+          <td>75,000,000+</td>
+        </tr>
+        <tr>
+          <td><strong>Day 7 Trader Retention</strong></td>
+          <td>&gt; 35% (retained via GTA RP)</td>
+          <td>&gt; 30% sustained</td>
+        </tr>
+        <tr>
+          <td><strong>Protocol Net Revenue</strong></td>
+          <td>$15,000 – $30,000 (2–3% fee rake)</td>
+          <td>$75,000 – $90,000</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--card-border); text-align: center; color: var(--text-dim); font-size: 13px; font-family: 'Space Mono', monospace;">
+    © 2026 810 Protocol — Media Attention Infrastructure. All Rights Reserved. // <a href="https://810.one" style="color: var(--lime); text-decoration: none;">810.one</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
