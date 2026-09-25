@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { rawMarketsData } from "./src/data/mock";
+import { mapApiMarketsPayload, mapApiMarketToUi } from "./src/lib/mapApiMarket";
 
 // Built-in fallback mock data with client investor portfolio (Flovely, LOL, AI Artists, US Athletes)
 const fallbackMarkets = rawMarketsData;
@@ -67,16 +68,40 @@ async function startServer() {
       res.json({ status: "ok" });
     });
 
-    // GET /markets -> Feed cards
-    app.get("/api/markets", (req, res) => {
-      return proxyRequest('/markets', req, res, fallbackMarkets);
+    // GET /markets -> Feed cards (normalize Cloud Run {markets:[]} → UI Market[])
+    app.get("/api/markets", async (req, res) => {
+      const queryString = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+      const targetUrl = `${CLOUD_RUN_API_URL}/markets${queryString}`;
+      try {
+        const response = await fetch(targetUrl, { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error(`Cloud Run API status ${response.status}`);
+        const data = await response.json();
+        const mapped = mapApiMarketsPayload(data);
+        if (mapped.length === 0) throw new Error('No mappable markets');
+        return res.json(mapped);
+      } catch (error: any) {
+        console.warn(`[Proxy Warning] /api/markets fallback:`, error.message);
+        return res.json(fallbackMarkets);
+      }
     });
 
     // Single market details
-    app.get("/api/markets/:id", (req, res) => {
+    app.get("/api/markets/:id", async (req, res) => {
       const marketId = req.params.id;
       const fallbackMarket = fallbackMarkets.find(m => m.id === marketId) || fallbackMarkets[0];
-      return proxyRequest(`/markets/${marketId}`, req, res, fallbackMarket);
+      const targetUrl = `${CLOUD_RUN_API_URL}/markets/${marketId}`;
+      try {
+        const response = await fetch(targetUrl, { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error(`Cloud Run API status ${response.status}`);
+        const data = await response.json();
+        const marketPayload = data?.market ?? data;
+        const mapped = mapApiMarketToUi(marketPayload);
+        if (!mapped) throw new Error('Unmappable market');
+        return res.json(mapped);
+      } catch (error: any) {
+        console.warn(`[Proxy Warning] /api/markets/:id fallback:`, error.message);
+        return res.json(fallbackMarket);
+      }
     });
 
     // GET /trade/:id/quote -> Trade sheet preview
